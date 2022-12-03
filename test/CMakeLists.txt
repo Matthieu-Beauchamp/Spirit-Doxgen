@@ -5,9 +5,14 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_executable(main main.cpp)
 
-set(SPIRIT_DOXYGEN_PARENT_PROJECT ${CMAKE_PROJECT_NAME})
-set(SPIRIT_DOXYGEN_INPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
-set(SPIRIT_DOXYGEN_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/docs)
+set(SPIRIT_DOXYGEN_PROJECT_NAME ${CMAKE_PROJECT_NAME})
 
-# (Copy paste Spirit-Doxygen in a subdir first)
-add_subdirectory(Spirit-Doxygen)
+# My windows refuses to create the docs directory when given as absolute
+# set(SPIRIT_DOXYGEN_INPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+# set(SPIRIT_DOXYGEN_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/docs)
+
+# Using relative path for docs instead works fine
+set(SPIRIT_DOXYGEN_INPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set(SPIRIT_DOXYGEN_OUTPUT_DIR test/docs)
+
+add_subdirectory(.. ${CMAKE_CURRENT_BINARY_DIR}/Spirit-Doxygen)
