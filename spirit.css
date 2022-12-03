@@ -1,0 +1,15 @@
+/* Customization of the doxygen-awesome-css template*/
+
+
+/* light-mode overrides here */
+html 
+{
+
+}
+
+
+/* dark-mode overrides here */
+html.dark-mode
+{
+    
+}

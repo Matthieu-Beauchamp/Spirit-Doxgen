@@ -1,0 +1,7 @@
+# output directories
+html/*
+latex/*
+
+# IDEs
+.vscode
+.idea
