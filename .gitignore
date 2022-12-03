@@ -5,3 +5,14 @@ latex/*
 # IDEs
 .vscode
 .idea
+
+# build Files (cmake always generates it)
+**/buid*/**
+
+# Don't keep # TODO: Make Cmake delete it after doxygen generated docs
+Doxyfile
+
+test/*
+!test/main.cpp
+!test/include/
+!test/CMakeLists.txt

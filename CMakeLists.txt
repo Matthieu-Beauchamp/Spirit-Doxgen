@@ -1,10 +1,31 @@
+cmake_minimum_required(VERSION 3.0)
+
 set(PARENT_PROJECT ${CMAKE_PROJECT_NAME})
 set(PARENT_VERSION ${CMAKE_PROJECT_VERSION})
 
-set(DOC_NAME "${PARENT_PROJECT}-${PARENT_VERSION}")
+if ("${PARENT_VERSION}" STREQUAL "")
+    set(DOC_NAME "${PARENT_PROJECT}")
+else()
+    set(DOC_NAME "${PARENT_PROJECT}-${PARENT_VERSION}")
+endif()
+
+project("Docs")
+
+message("-- Configuring Doxygen documentation generation for ${DOC_NAME}")
+
+# Check Parent exists
+if ("${PARENT_PROJECT}" STREQUAL "")
+    message(SEND_ERROR "No parent project to generate documentation")
+    return()
+endif()
+
+if (NOT EXISTS ${SPIRIT_DOXYGEN_INPUT_DIR})
+    message(SEND_ERROR "No input directory found, ${INPUT_DIR} does not exist")
+    return()
+endif()
+
 
 # adapted from: https://stackoverflow.com/q/34878276
-
 find_package(Doxygen)
 
 option("${PARENT_PROJECT}_BUILD_DOCS" 
@@ -12,26 +33,22 @@ option("${PARENT_PROJECT}_BUILD_DOCS"
     ${DOXYGEN_FOUND}
     )
 
-if(${SPIRIT_BUILD_DOCS})
+if(${${PARENT_PROJECT}_BUILD_DOCS})
     if(NOT ${DOXYGEN_FOUND})
         message(FATAL_ERROR "Doxygen is needed to build the documentation.")
     endif()
 
-    message("-- Configuring Doxygen documentation generation for ${DOC_NAME}")
+    # Input dir for doxygen is set to ${SPIRIT_DOXYGEN_INPUT_DIR}
+    # Output will be placed in ${SPIRIT_DOXYGEN_OUTPUT_DIR}
+    # Project name will also be set
+    # Those paths will be relative to *this* directory, 
+    #   Absolute paths are recommended
 
-    # Input is set as ../include
-    # Output will be in ./docs
+    configure_file(Doxyfile.base ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile @ONLY)
 
-    # TODO: Could allow specifying include root using @include = configFile
-    #   where configFile would be generated right before calling doxygen
-    #   and would only contain INPUT=${INCLUDE_DIR}
-    # Also could be useful for output dir
-
-    set(doxyfile ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
-
-    add_custom_target("${DOC_NAME}"
-                      COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
+    add_custom_target("${DOC_NAME}-docs"
+                      COMMAND ${DOXYGEN_EXECUTABLE} Doxyfile
                       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-                      COMMENT "Generating API documentation with Doxygen"
+                      COMMENT "Generating ${DOC_NAME} documentation with Doxygen"
                       VERBATIM)
 endif()
