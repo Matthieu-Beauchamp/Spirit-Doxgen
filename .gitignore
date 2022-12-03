@@ -7,7 +7,6 @@ latex/*
 .idea
 
 # build Files (cmake always generates it)
-build
 **/build*/**
 
 # Don't keep # TODO: Make Cmake delete it after doxygen generated docs
