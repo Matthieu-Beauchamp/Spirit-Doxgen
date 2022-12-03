@@ -25,10 +25,12 @@ git submodule update --init --recursive
 MyProject/CmakeLists.txt
 ```cmake
 set(SPIRIT_DOXYGEN_PROJECT_NAME MyProject)
-set(SPIRIT_DOXYGEN_INPUT_DIR includeDirectory)
-set(SPIRIT_DOXYGEN_OUTPUT_DIR )
+set(SPIRIT_DOXYGEN_INPUT_DIR ../include)
+set(SPIRIT_DOXYGEN_OUTPUT_DIR ../docs)
 add_subdirectory(libs/Spirit-Doxygen)
 ```
+Output index.html would then be at `MyProject/docs/html/index.html` after
+MyProject-docs is built
 
 The input and output directories are relative to Spirit-Doxygen's root directory
 if they are not absolute paths.
