@@ -8,13 +8,6 @@ endif()
 
 message("-- Configuring Doxygen documentation generation for ${SPIRIT_DOXYGEN_PROJECT_NAME}")
 
-
-if (NOT EXISTS ${SPIRIT_DOXYGEN_INPUT_DIR})
-    message(SEND_ERROR "No input directory found, ${SPIRIT_DOXYGEN_INPUT_DIR} does not exist")
-    return()
-endif()
-
-
 # adapted from: https://stackoverflow.com/q/34878276
 find_package(Doxygen)
 
@@ -31,7 +24,6 @@ if(${${SPIRIT_DOXYGEN_PROJECT_NAME}_BUILD_DOCS})
     # Input dir for doxygen is set to ${SPIRIT_DOXYGEN_INPUT_DIR}
     # Output will be placed in ${SPIRIT_DOXYGEN_OUTPUT_DIR}
     # Those paths will be relative to *this* directory, 
-    #   Absolute paths are recommended
     # Project name will also be set to ${SPIRIT_DOXYGEN_PROJECT_NAME}
 
     configure_file(Doxyfile.base ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile @ONLY)
